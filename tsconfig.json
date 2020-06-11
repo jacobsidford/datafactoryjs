@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"lib": ["dom", "es2017"],
+		"target": "es5",
+		"module": "commonjs",
+		"outDir": "./dist",
+		"strict": true,
+		"declaration": true,
+		"esModuleInterop": true,
+		"baseUrl": ".",
+		"paths": {
+			"datafactoryjs": ["src/index"]
+		}
+	}
+}

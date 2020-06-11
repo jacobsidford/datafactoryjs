@@ -1,12 +1,13 @@
 {
 	"name": "datafactoryjs",
-	"version": "1.0.0",
-	"description": "",
-	"main": "src/index.js",
+	"version": "2.0.0",
+	"description": "Typescript factory for generating test data",
+	"main": "dist/index.js",
 	"files": [
-		"src/"
+		"dist/"
 	],
 	"scripts": {
+		"build": "tsc -p tsconfig.build.json",
 		"test": "jest"
 	},
 	"repository": {
@@ -17,7 +18,8 @@
 		"testing",
 		"mock",
 		"test data",
-		"factories"
+		"factories",
+		"typescript"
 	],
 	"prettier": {
 		"useTabs": true,
@@ -39,24 +41,12 @@
 	},
 	"author": "Jacob Sidford",
 	"license": "MIT",
-	"babel": {
-		"presets": [
-			"@babel/preset-env"
-		],
-		"plugins": [
-			"@babel/proposal-class-properties"
-		]
-	},
 	"bugs": {
 		"url": "https://github.com/jacobsidford/datafactoryjs/issues"
 	},
 	"homepage": "https://github.com/jacobsidford/datafactoryjs#readme",
 	"devDependencies": {
-		"@babel/core": "^7.10.2",
-		"@babel/node": "^7.10.1",
-		"@babel/plugin-proposal-class-properties": "^7.10.1",
-		"@babel/preset-env": "^7.10.2",
 		"jest": "^26.0.1",
-		"prettier": "^2.0.5"
+		"typescript": "^3.9.5"
 	}
 }

@@ -1,4 +1,4 @@
-import { DataFactory } from 'datafactoryjs';
+const { DataFactory } = require('datafactoryjs');
 
 const user = {
 	id: '1',

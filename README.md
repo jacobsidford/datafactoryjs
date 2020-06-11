@@ -1,6 +1,6 @@
 # DataFactoryJs
 
-Simple javascript factory for generating test data
+Simple typescript factory for generating test data
 
 ## Install
 
