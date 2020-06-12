@@ -2,7 +2,7 @@ const { DataFactory } = require('datafactoryjs');
 
 const user = {
 	id: '1',
-	firstName: 'John',
+	firstName: 'Jacob',
 	lastName: 'Smith'
 };
 
@@ -63,6 +63,12 @@ describe('DataFactory.create', () => {
 		const randomizedUsers = factory.create('randomizedUser', 2);
 		expect(randomizedUsers.length).toEqual(2);
 		expect(randomizedUsers[0] === randomizedUsers[1]).toEqual(false);
+	});
+
+	test('should create data with name overwritten for user if passed object with name', () => {
+		const createdUser = factory.create('user', 1, { name: 'Jacob' });
+		expect(createdUser.length).toEqual(1);
+		expect(createdUser[0].name).toEqual('Jacob');
 	});
 
 	test('should error if object you are trying to create does not exist', () => {
