@@ -2,12 +2,12 @@ const { DataFactory } = require('datafactoryjs');
 
 const user = {
 	id: '1',
-	firstName: 'Jacob',
+	firstName: 'John',
 	lastName: 'Smith'
 };
 
 describe('DataFactory.register', () => {
-	test('should store object generating functions in the factory', () => {
+	test('should store model generating functions in the factory', () => {
 		const factory = new DataFactory();
 		factory.register('user', () => {
 			return user;
@@ -17,7 +17,7 @@ describe('DataFactory.register', () => {
 		expect(factory.registeredTypes.get('user')()).toBe(user);
 	});
 
-	test('should error if object function exists in factory already', () => {
+	test('should error if model function exists in factory already', () => {
 		const factory = new DataFactory();
 		factory.register('user', () => {
 			return user;
@@ -55,7 +55,7 @@ describe('DataFactory.create', () => {
 	test('should return an array with 2 randomUsers if passed count of 2 & registered function returning randomized data', () => {
 		factory.register('randomizedUser', () => {
 			return {
-				id: Math.floor(Math.random() * 10000 + 1),
+				id: Math.floor(Math.random() * 100000 + 1),
 				name: 'John'
 			};
 		});
@@ -65,13 +65,32 @@ describe('DataFactory.create', () => {
 		expect(randomizedUsers[0] === randomizedUsers[1]).toEqual(false);
 	});
 
-	test('should create data with name overwritten for user if passed object with name', () => {
-		const createdUser = factory.create('user', 1, { name: 'Jacob' });
+	test('should create data with name overwritten for user if passed model with name', () => {
+		const createdUser = factory.create('user', 1, { firstName: 'Jacob' });
 		expect(createdUser.length).toEqual(1);
-		expect(createdUser[0].name).toEqual('Jacob');
+		expect(createdUser[0].firstName).toEqual('Jacob');
 	});
 
-	test('should error if object you are trying to create does not exist', () => {
+	test('should create user and not overwrite value that does not exist since overwrite default false', () => {
+		const createdUsers = factory.create('user', 1, {
+			superPower: 'super strength'
+		});
+		expect(createdUsers.length).toEqual(1);
+		expect(createdUsers[0]).toEqual(user);
+	});
+
+	test('should create user and overwrite value that does not exist since overwrite true', () => {
+		const createdUsers = factory.create(
+			'user',
+			1,
+			{ superPower: 'super strength' },
+			true
+		);
+		expect(createdUsers.length).toEqual(1);
+		expect(createdUsers[0].superPower).toEqual('super strength');
+	});
+
+	test('should error if model you are trying to create does not exist', () => {
 		expect(() => {
 			factory.create('non-existant', 0);
 		}).toThrow('non-existant does not exist in data factory');

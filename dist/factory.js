@@ -16,29 +16,45 @@ var DataFactory = /** @class */ (function () {
     function DataFactory() {
         this.registeredTypes = new Map();
     }
-    DataFactory.prototype.register = function (objectName, objectValues) {
-        if (!this.registeredTypes.has(objectName)) {
-            this.registeredTypes.set(objectName, objectValues);
+    DataFactory.prototype.register = function (modelName, objectValues) {
+        if (!this.registeredTypes.has(modelName)) {
+            this.registeredTypes.set(modelName, objectValues);
         }
         else {
-            throw new Error(objectName + " already exists in data factory");
+            throw new Error(modelName + " already exists in data factory");
         }
     };
-    DataFactory.prototype.create = function (objectName, count, objectOptions) {
+    DataFactory.prototype.create = function (modelName, count, modelExtensions, extendModel) {
         if (count === void 0) { count = 1; }
-        if (objectOptions === void 0) { objectOptions = null; }
-        if (!this.registeredTypes.has(objectName)) {
-            throw new Error(objectName + " does not exist in data factory");
+        if (modelExtensions === void 0) { modelExtensions = {}; }
+        if (extendModel === void 0) { extendModel = false; }
+        var factoryModel = this.registeredTypes.get(modelName);
+        if (!factoryModel) {
+            throw new Error(modelName + " does not exist in data factory");
+        }
+        if (modelExtensions && !extendModel) {
+            modelExtensions = this.filterExtensionValues(factoryModel(), modelExtensions);
         }
         var objects = [];
         for (var i = count; i--;) {
-            objects.push(this.instantiateObject(objectName, objectOptions));
+            objects.push(this.instantiateObject(modelName, modelExtensions));
         }
         return objects;
     };
-    DataFactory.prototype.instantiateObject = function (objectName, objectOptions) {
-        var object = this.registeredTypes.get(objectName);
-        return __assign(__assign({}, object()), objectOptions);
+    DataFactory.prototype.instantiateObject = function (modelName, modelExtensions) {
+        var model = this.registeredTypes.get(modelName);
+        return __assign(__assign({}, model()), modelExtensions);
+    };
+    DataFactory.prototype.filterExtensionValues = function (factoryModel, modelExtensions) {
+        var extensionKeys = Object.keys(modelExtensions);
+        var extensions = modelExtensions;
+        for (var i = extensionKeys.length; i--;) {
+            var key = extensionKeys[i];
+            if (!factoryModel[key]) {
+                delete extensions[key];
+            }
+        }
+        return extensions;
     };
     return DataFactory;
 }());

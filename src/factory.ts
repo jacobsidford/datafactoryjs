@@ -1,35 +1,62 @@
 export class DataFactory {
 	registeredTypes = new Map();
 
-	register(objectName: string, objectValues: Function) {
-		if (!this.registeredTypes.has(objectName)) {
-			this.registeredTypes.set(objectName, objectValues);
+	register(modelName: string, objectValues: Function) {
+		if (!this.registeredTypes.has(modelName)) {
+			this.registeredTypes.set(modelName, objectValues);
 		} else {
-			throw new Error(`${objectName} already exists in data factory`);
+			throw new Error(`${modelName} already exists in data factory`);
 		}
 	}
 
 	create(
-		objectName: string,
+		modelName: string,
 		count: number = 1,
-		objectOptions: object | null = null
+		modelExtensions: object = {},
+		extendModel: boolean = false
 	): any[] {
-		if (!this.registeredTypes.has(objectName)) {
-			throw new Error(`${objectName} does not exist in data factory`);
+		const factoryModel = this.registeredTypes.get(modelName);
+
+		if (!factoryModel) {
+			throw new Error(`${modelName} does not exist in data factory`);
+		}
+
+		if (modelExtensions && !extendModel) {
+			modelExtensions = this.filterExtensionValues(
+				factoryModel(),
+				modelExtensions
+			);
 		}
 
 		const objects = [];
 		for (let i = count; i--; ) {
-			objects.push(this.instantiateObject(objectName, objectOptions));
+			objects.push(this.instantiateObject(modelName, modelExtensions));
 		}
 		return objects;
 	}
 
-	instantiateObject(objectName: string, objectOptions: object | null): object {
-		const object = this.registeredTypes.get(objectName);
+	instantiateObject(modelName: string, modelExtensions: object | null): object {
+		const model = this.registeredTypes.get(modelName);
 		return {
-			...object(),
-			...objectOptions
+			...model(),
+			...modelExtensions
 		};
+	}
+
+	filterExtensionValues(
+		factoryModel: { [key: string]: any },
+		modelExtensions: { [key: string]: any }
+	): object {
+		const extensionKeys = Object.keys(modelExtensions);
+		const extensions = modelExtensions;
+
+		for (let i = extensionKeys.length; i--; ) {
+			const key = extensionKeys[i];
+			if (!factoryModel[key]) {
+				delete extensions[key];
+			}
+		}
+
+		return extensions;
 	}
 }

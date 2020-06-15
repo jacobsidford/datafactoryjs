@@ -11,7 +11,7 @@ $ npm install --save-dev datafactoryjs
 ## Usage
 
 ```js
-// Register objects into the factory
+// Register models into the factory
 
 const factory = require('datafactoryjs');
 
@@ -22,17 +22,33 @@ factory.register('user', () => {
 	};
 });
 
-// Generate N objects
+// Generate N models
 
 const users = factory.create('user', 2);
+
 // [{ id:'1', name: 'John Smith' }, { id:'1', name: 'John Smith' }]
 ```
 
-You can overwrite data with custom attributes if you want to assert a value
+You can overwrite data with fixed attributes if you want to assert a value, this will match the keys of the original model by default or you can enable extending the model to allow new attributes
 
 ```js
-const users = factory.create('user', 1, { name: 'Joe Doe' });
+const users = factory.create('user', 1, {
+	name: 'Joe Doe',
+	superPower: 'Super Strong'
+});
+
 // [{ id:'1', name: 'Joe Doe' }]
+
+// Can enable extending the original model
+
+const users = factory.create(
+	'user',
+	1,
+	{ name: 'Joe Doe', superPower: 'Super Strong' },
+	true
+);
+
+// [{ id:'1', name: 'Joe Doe', superPower: 'Super Strong' }]
 ```
 
 The benefit of registering functions is being able to generate randomized data, I use [Faker](https://www.npmjs.com/package/faker) for this
@@ -48,5 +64,6 @@ const faker = require('faker');
     }
 
     factory.create('user', 50);
+
 // This will return an array of 50 unique users
 ```
