@@ -1,7 +1,7 @@
 export class DataFactory {
 	registeredTypes = new Map();
 
-	register<T>(modelName: string | (T & Function), objectValues: Function) {
+	register<T>(modelName: string | (T & Function), objectValues: () => T) {
 		const name = (typeof modelName === 'string'
 			? modelName
 			: (modelName as T & Function).name) as string;

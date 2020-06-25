@@ -41,12 +41,7 @@ const users = factory.create('user', 1, {
 
 // Can enable extending the original model
 
-const users = factory.create(
-	'user',
-	1,
-	{ name: 'Joe Doe', superPower: 'Super Strong' },
-	true
-);
+const users = factory.create('user', 1, { name: 'Joe Doe', superPower: 'Super Strong' }, true);
 
 // [{ id:'1', name: 'Joe Doe', superPower: 'Super Strong' }]
 ```

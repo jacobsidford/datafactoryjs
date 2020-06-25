@@ -1,11 +1,12 @@
 {
 	"name": "datafactoryjs",
-	"version": "2.1.0",
+	"version": "2.2.0",
 	"description": "Typescript factory for generating test data",
 	"main": "dist/index.js",
 	"files": [
 		"dist/"
 	],
+	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc -p tsconfig.build.json",
 		"test": "jest"
@@ -19,6 +20,7 @@
 		"mock",
 		"test data",
 		"factories",
+		"javascript",
 		"typescript"
 	],
 	"prettier": {
