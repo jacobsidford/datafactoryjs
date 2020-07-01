@@ -96,3 +96,14 @@ describe('DataFactory.create', () => {
 		}).toThrow('non-existant does not exist in data factory');
 	});
 });
+describe('DataFactory.createSingle', () => {
+	const factory = new DataFactory();
+	factory.register('user', () => {
+		return user;
+	});
+
+	test('should create single model', () => {
+		const createdUser = factory.createSingle('user');
+		expect(createdUser).toEqual(user);
+	});
+});
