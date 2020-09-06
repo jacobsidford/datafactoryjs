@@ -1,6 +1,6 @@
 {
 	"name": "datafactoryjs",
-	"version": "2.2.0",
+	"version": "2.2.1",
 	"description": "Typescript factory for generating test data",
 	"main": "dist/index.js",
 	"files": [
@@ -48,6 +48,7 @@
 	},
 	"homepage": "https://github.com/jacobsidford/datafactoryjs#readme",
 	"devDependencies": {
+		"@types/jest": "^26.0.13",
 		"jest": "^26.0.1",
 		"typescript": "^3.9.5"
 	}
