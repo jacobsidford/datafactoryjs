@@ -8,6 +8,7 @@
 		"declaration": true,
 		"esModuleInterop": true,
 		"baseUrl": ".",
+		"types": ["node", "jest"],
 		"paths": {
 			"datafactoryjs": ["src/index"]
 		}

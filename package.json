@@ -33,8 +33,11 @@
 	},
 	"jest": {
 		"testEnvironment": "node",
+		"collectCoverage": true,
+		"transform": {
+			"^.+\\.tsx?$": "ts-jest"
+		},
 		"testMatch": [
-			"**/__tests__/**/*.[j]s?(x)",
 			"**/?(*.)+(spec|test).[t]s?(x)"
 		],
 		"testPathIgnorePatterns": [
@@ -48,8 +51,9 @@
 	},
 	"homepage": "https://github.com/jacobsidford/datafactoryjs#readme",
 	"devDependencies": {
-		"@types/jest": "^26.0.13",
-		"jest": "^26.0.1",
-		"typescript": "^3.9.5"
+		"@types/jest": "^26.0.15",
+		"jest": "^26.6.1",
+		"ts-jest": "^26.4.3",
+		"typescript": "^3.9.7"
 	}
 }
