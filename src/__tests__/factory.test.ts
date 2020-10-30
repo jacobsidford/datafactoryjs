@@ -1,4 +1,4 @@
-const { DataFactory } = require('datafactoryjs');
+const { DataFactory } = require('../factory');
 
 const user = {
 	id: '1',
@@ -66,26 +66,26 @@ describe('DataFactory.create', () => {
 	});
 
 	test('should create data with name overwritten for user if passed model with name', () => {
-		const createdUser = factory.create('user', 1, { firstName: 'Jacob' });
+		const createdUser = factory.create('user', 1, {
+			modelExtensions: { firstName: 'Jacob' }
+		});
 		expect(createdUser.length).toEqual(1);
 		expect(createdUser[0].firstName).toEqual('Jacob');
 	});
 
 	test('should create user and not overwrite value that does not exist since overwrite default false', () => {
 		const createdUsers = factory.create('user', 1, {
-			superPower: 'super strength'
+			modelExtensions: { superPower: 'super strength' }
 		});
 		expect(createdUsers.length).toEqual(1);
 		expect(createdUsers[0]).toEqual(user);
 	});
 
 	test('should create user and overwrite value that does not exist since overwrite true', () => {
-		const createdUsers = factory.create(
-			'user',
-			1,
-			{ superPower: 'super strength' },
-			true
-		);
+		const createdUsers = factory.create('user', 1, {
+			modelExtensions: { superPower: 'super strength' },
+			extendModel: true
+		});
 		expect(createdUsers.length).toEqual(1);
 		expect(createdUsers[0].superPower).toEqual('super strength');
 	});
