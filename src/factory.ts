@@ -1,3 +1,8 @@
+interface ICreateOptions {
+	modelExtensions: object;
+	extendModel: boolean;
+};
+
 export class DataFactory {
 	registeredTypes = new Map();
 
@@ -16,8 +21,10 @@ export class DataFactory {
 	create<T>(
 		modelName: string | (T & Function),
 		count: number = 1,
-		modelExtensions: object = {},
-		extendModel: boolean = false
+		options: ICreateOptions = {
+			modelExtensions: {},
+			extendModel: false
+		}
 	): T[] {
 		const name = (typeof modelName === 'string'
 			? modelName
@@ -29,26 +36,28 @@ export class DataFactory {
 			throw new Error(`${name} does not exist in data factory`);
 		}
 
-		if (modelExtensions && !extendModel) {
-			modelExtensions = this.filterExtensionValues(
+		if (options.modelExtensions && !options.extendModel) {
+			options.modelExtensions = this.filterExtensionValues(
 				factoryModel(),
-				modelExtensions
+				options.modelExtensions
 			);
 		}
 
 		const objects: T[] = [];
 		for (let i = count; i--; ) {
-			objects.push(this.instantiateObject(name, modelExtensions));
+			objects.push(this.instantiateObject(name, options.modelExtensions));
 		}
 		return objects;
 	}
 
 	createSingle<T>(
 		modelName: string | (T & Function),
-		modelExtensions: object = {},
-		extendModel: boolean = false
+		options: ICreateOptions = {
+			modelExtensions: {},
+			extendModel: false
+		}
 	): T {
-		return this.create<T>(modelName, 1, modelExtensions, extendModel)[0];
+		return this.create<T>(modelName, 1, { ...options })[0];
 	}
 
 	instantiateObject<T>(modelName: string, modelExtensions: object | null): T {
