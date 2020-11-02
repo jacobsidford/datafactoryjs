@@ -1,6 +1,6 @@
 {
 	"name": "datafactoryjs",
-	"version": "2.2.1",
+	"version": "2.3.0",
 	"description": "Typescript factory for generating test data",
 	"main": "dist/index.js",
 	"files": [
