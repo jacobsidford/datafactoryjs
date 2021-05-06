@@ -31,7 +31,6 @@ const user = factory.createSingle('user');
 
 // { id: '1', name: 'John Smith'}
 
-
 // Generate N models
 
 const users = factory.create('user', 2);
@@ -43,15 +42,23 @@ You can overwrite data with fixed attributes if you want to assert a value, this
 
 ```js
 const users = factory.create('user', 1, {
-	name: 'Joe Doe',
-	superPower: 'Super Strong'
+	modelExtensions: {
+		name: 'Joe Doe',
+		superPower: 'Super Strong'
+	}
 });
 
 // [{ id:'1', name: 'Joe Doe' }]
 
 // Can enable extending the original model
 
-const users = factory.create('user', 1, { name: 'Joe Doe', superPower: 'Super Strong' }, true);
+const users = factory.create('user', 1, {
+	modelExtensions: {
+		name: 'Joe Doe',
+		superPower: 'Super Strong'
+	},
+	extendModel: true
+});
 
 // [{ id:'1', name: 'Joe Doe', superPower: 'Super Strong' }]
 ```
@@ -71,4 +78,9 @@ const faker = require('faker');
     factory.create('user', 50);
 
 // This will return an array of 50 unique users
+```
+## Typing
+Datafactory has Typescript typing enabled
+```js
+factory.createSingle<IUser>('user');
 ```
